@@ -17,8 +17,10 @@ namespace AuthorizationApp
 
         private void MainFrame_OnNavigated(object sender, NavigationEventArgs e)
         {
-            if (!(e.Content is Page page)) return;
-            this.Title = $"LESSON - {page.Title}";
+            if (!(e.Content is Page page))
+                return;
+
+            Title = $"Page - {page.Title}";
 
             if (page is AuthPage)
                 ButtonBack.Visibility = Visibility.Hidden;

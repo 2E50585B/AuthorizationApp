@@ -15,31 +15,33 @@ namespace AuthorizationApp.Pages
             InitializeComponent();
         }
 
+        private bool LoginIsNull => string.IsNullOrEmpty(TextBoxLogin.Text) || string.IsNullOrWhiteSpace(TextBoxLogin.Text);
+
+        private bool PasswordIsNull => string.IsNullOrEmpty(PasswordBox.Password) || string.IsNullOrWhiteSpace(PasswordBox.Password);
+
         private void ButtonEnter_OnClick(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(TextBoxLogin.Text) || string.IsNullOrEmpty(PasswordBox.Password))
+            if (LoginIsNull || PasswordIsNull)
             {
                 MessageBox.Show("Write Login and Password!");
                 return;
             }
 
-            using (var db = new Entities())
+            using (Entities db = new Entities())
             {
-                var user = db.User.
+                User user = db.User.
                     AsNoTracking().
                     FirstOrDefault(u => u.Login == TextBoxLogin.Text && u.Password == PasswordBox.Password);
 
-                //var users = db.User.AsNoTracking().Where(u => u.Login.StartsWith("max")).ToList();
+                //var users = db.User.AsNoTracking().Where(u => u.Login.StartsWith("test")).ToList();
 
                 //var allUsers = db.User.AsNoTracking().ToList();
 
                 if (user == null)
                 {
-                    MessageBox.Show("User not found!");
+                    MessageBox.Show("Check Login & Password", "User not found!");
                     return;
                 }
-
-                MessageBox.Show("User Successfully Found!");
 
                 switch (user.Role)
                 {
@@ -53,7 +55,7 @@ namespace AuthorizationApp.Pages
                         NavigationService?.Navigate(new Menu());
                         break;
                     default:
-                        MessageBox.Show($"Такой роли нет в Базе Данных - {user.Role}!");
+                        MessageBox.Show($"Такой роли нет - |{user.Role}|!");
                         break;
                 }
             }

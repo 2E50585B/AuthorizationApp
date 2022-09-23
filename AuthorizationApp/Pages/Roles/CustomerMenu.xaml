@@ -12,7 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="70"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -21,13 +21,15 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="1">
-            <TextBlock x:Name="TextFIO"/>
-            <TextBlock x:Name="TextRole"/>
-            <Image x:Name="CustomerPhoto" Height="64" Width="64"/>
+            <TextBlock x:Name="TextFIO" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="TextRole" HorizontalAlignment="Center"/>
+            <Border BorderBrush="Black" BorderThickness="1.25" Height="64" Width="64">
+                <Image x:Name="CustomerPhoto" Source="/Images/defaultPhoto.png"/>
+            </Border>
         </StackPanel>
         
         <Button Content="Page2" Click="ButtonPage2_OnClick" Grid.Column="1" Grid.Row="1" Height="20" VerticalAlignment="Top"/>
-        <Button Content="AuthPage" Click="ButtonAuthPage_OnClick" Grid.Column="1" Grid.Row="1" Height="20"/>
-        <Button Content="Menu" Click="ButtonMenu_OnClick" Grid.Column="1" Grid.Row="1" Height="20" VerticalAlignment="Bottom"/>
+        <Button Content="Menu" Click="ButtonMenu_OnClick" Grid.Column="1" Grid.Row="1" Height="20"/>
+        <Button Content="Exit" Click="ButtonAuthPage_OnClick" Grid.Column="1" Grid.Row="1" Height="20" VerticalAlignment="Bottom"/>
     </Grid>
 </Page>
