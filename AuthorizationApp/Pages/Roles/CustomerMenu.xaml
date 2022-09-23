@@ -1,0 +1,33 @@
+﻿<Page x:Class="AuthorizationApp.Pages.Roles.CustomerMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AuthorizationApp.Pages.Roles"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="CustomerMenu" Loaded="CustomerMenu_Loaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="257"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="1">
+            <TextBlock x:Name="TextFIO"/>
+            <TextBlock x:Name="TextRole"/>
+            <Image x:Name="CustomerPhoto" Height="64" Width="64"/>
+        </StackPanel>
+        
+        <Button Content="Page2" Click="ButtonPage2_OnClick" Grid.Column="1" Grid.Row="1" Height="20" VerticalAlignment="Top"/>
+        <Button Content="AuthPage" Click="ButtonAuthPage_OnClick" Grid.Column="1" Grid.Row="1" Height="20"/>
+        <Button Content="Menu" Click="ButtonMenu_OnClick" Grid.Column="1" Grid.Row="1" Height="20" VerticalAlignment="Bottom"/>
+    </Grid>
+</Page>

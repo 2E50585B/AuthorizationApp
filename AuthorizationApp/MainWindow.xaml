@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AuthorizationApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42"/>
+            <RowDefinition/>
+            <RowDefinition Height="42"/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="#FFF4F4F5" Grid.Row="2" StrokeThickness="0"/>
+        <Button x:Name="ButtonBack" Click="ButtonBack_OnClick" Content="Back" HorizontalAlignment="Left" Margin="10, 10, 0, 10" Width="75"/>
+        <Frame x:Name="MainFrame" Navigated="MainFrame_OnNavigated" Content="Frame" Grid.Row="1" Source="Pages/AuthPage.xaml" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
