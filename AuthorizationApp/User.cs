@@ -19,5 +19,13 @@ namespace AuthorizationApp
         public string Role { get; set; }
         public string FIO { get; set; }
         public byte[] Photo { get; set; }
+        public override string ToString() => this.ToString();
+        public string ToString(bool fullInfo = false)
+        {
+            if (fullInfo)
+                return $"{Login}\n{Password}\n{Role}\n{FIO}";
+            else
+                return $"{FIO}\n{Role}";
+        }
     }
 }

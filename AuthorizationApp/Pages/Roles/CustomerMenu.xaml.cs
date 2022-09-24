@@ -115,7 +115,7 @@ namespace AuthorizationApp.Pages.Roles
 
         private void ButtonPage2_OnClick(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new Page2());
+            NavigationService?.Navigate(new RegPage());
         }
 
         private void ButtonAuthPage_OnClick(object sender, RoutedEventArgs e)

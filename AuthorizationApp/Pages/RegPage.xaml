@@ -1,12 +1,12 @@
-﻿<Page x:Class="AuthorizationApp.Pages.Page2"
+﻿<Page x:Class="AuthorizationApp.Pages.RegPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:AuthorizationApp.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-      Title="Page2">
+      d:DesignHeight="480" d:DesignWidth="640"
+      Title="Registration">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -28,16 +28,26 @@
 
         <Label Content="Login" Grid.Column="1" Grid.Row="1" Height="25" VerticalAlignment="Top"/>
         <TextBox x:Name="NewLogin" Grid.Column="2" Grid.Row="1" Height="25" TextWrapping="Wrap" VerticalAlignment="top" Margin="0, 0, 0, 0"/>
-        
+
         <Label Content="Password" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Height="25" Margin="0, 30, 0, 0"/>
         <PasswordBox x:Name="NewPassword" Grid.Column="2" Grid.Row="1" VerticalAlignment="top" Height="25" Margin="0, 30, 0, 0"/>
-        
+
         <Label Content="Role" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Height="25" Margin="0, 60, 0, 0"/>
-        <TextBox x:Name="NewRole" Grid.Column="2" Grid.Row="1" VerticalAlignment="top" Height="25" Margin="0, 60, 0, 0"/>
-        
+        <ComboBox x:Name="NewRole" SelectionChanged="NewRole_OnSelected" Grid.Column="2" Grid.Row="1" VerticalAlignment="top" Height="25" Margin="0, 60, 0, 0">
+            <ComboBoxItem IsSelected="True">
+                <TextBlock Text="Consumer"/>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <TextBlock Text="Заказчик"/>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <TextBlock Text="Директор"/>
+            </ComboBoxItem>
+        </ComboBox>
+
         <Label Content="FIO" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Height="25" Margin="0, 90, 0, 0"/>
         <TextBox x:Name="NewFIO" Grid.Column="2" Grid.Row="1" VerticalAlignment="Top" Height="25" Margin="0, 90, 0, 0"/>
-        
+
         <Button Content="Photo:" Click="GetPhoto_OnClick" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Height="25" Margin="0, 120, 0, 0"/>
         <Border BorderBrush="Black" BorderThickness="1.25" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Height="64" Width="64" Margin="0, 120, 0, 0">
             <Image x:Name="UserPhoto" Source="/Images/defaultPhoto.png"/>

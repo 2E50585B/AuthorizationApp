@@ -11,18 +11,25 @@ using System.Windows.Media.Imaging;
 namespace AuthorizationApp.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для Page2.xaml
+    /// Логика взаимодействия для RegPage.xaml
     /// </summary>
-    public partial class Page2 : Page
+    public partial class RegPage : Page
     {
         private const int LOGIN_MAX_LENGTH = 20;
         private const int PASSWORD_MAX_LENGTH = 20;
-        private const int ROLE_MAX_LENGTH = 20;
         private const int FIO_MAX_LENGTH = 100;
+        private string _role;
 
-        public Page2()
+        public RegPage()
         {
             InitializeComponent();
+        }
+
+        private void NewRole_OnSelected(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxItem item = NewRole.SelectedValue as ComboBoxItem;
+            TextBlock content = item?.Content as TextBlock;
+            _role = content?.Text ?? "Consumer";
         }
 
         private void GetPhoto_OnClick(object sender, RoutedEventArgs e)
@@ -59,9 +66,6 @@ namespace AuthorizationApp.Pages
 
             if (NewPassword.Password.Length > PASSWORD_MAX_LENGTH || IsEmpty(NewPassword.Password))
                 stringBuilder.AppendLine("Incorrect Password");
-
-            if (NewRole.Text.Length > ROLE_MAX_LENGTH || IsEmpty(NewRole.Text))
-                stringBuilder.AppendLine("Incorrect Role");
 
             if (NewFIO.Text.Length > FIO_MAX_LENGTH || IsEmpty(NewFIO.Text))
                 stringBuilder.AppendLine("Incorrect FIO");
@@ -144,7 +148,7 @@ namespace AuthorizationApp.Pages
                     command.Parameters["@Photo"].Value = photoData;*/
                     command.Parameters["@Login"].Value = NewLogin.Text;
                     command.Parameters["@Password"].Value = NewPassword.Password;
-                    command.Parameters["@Role"].Value = NewRole.Text;
+                    command.Parameters["@Role"].Value = _role;
                     command.Parameters["@FIO"].Value = NewFIO.Text;
 
                     command.ExecuteNonQuery();
@@ -162,7 +166,6 @@ namespace AuthorizationApp.Pages
         {
             NewLogin.Text = string.Empty;
             NewPassword.Password = string.Empty;
-            NewRole.Text = string.Empty;
             NewFIO.Text = string.Empty;
         }
     }

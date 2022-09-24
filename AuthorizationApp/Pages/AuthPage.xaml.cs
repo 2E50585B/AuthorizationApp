@@ -1,4 +1,5 @@
-﻿using AuthorizationApp.Pages.Roles;
+﻿using AuthorizationApp.Extentions;
+using AuthorizationApp.Pages.Roles;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,9 +11,33 @@ namespace AuthorizationApp.Pages
     /// </summary>
     public partial class AuthPage : Page
     {
+        private bool _passwordIsHidden = true;
+
         public AuthPage()
         {
             InitializeComponent();
+        }
+
+        private void ShowHidePassword_OnClick(object sender, RoutedEventArgs e)
+        {
+            _passwordIsHidden = !_passwordIsHidden;
+
+            if (_passwordIsHidden)
+            {
+                PasswordBox.Visibility = Visibility.Visible;
+                PasswordText.Visibility = Visibility.Collapsed;
+                PasswordBox.Password = PasswordText.Text;
+                PasswordBox.Focus();
+                PasswordBox.SetSelection(PasswordBox.Password.Length);
+            }
+            else
+            {
+                PasswordBox.Visibility = Visibility.Collapsed;
+                PasswordText.Visibility = Visibility.Visible;
+                PasswordText.Text = PasswordBox.Password;
+                PasswordText.Focus();
+                PasswordText.CaretIndex = PasswordText.Text.Length;
+            }
         }
 
         private bool LoginIsNull => string.IsNullOrEmpty(TextBoxLogin.Text) || string.IsNullOrWhiteSpace(TextBoxLogin.Text);
@@ -37,7 +62,7 @@ namespace AuthorizationApp.Pages
 
                 //var allUsers = db.User.AsNoTracking().ToList();
 
-                if (user == null)
+                if (user is null)
                 {
                     MessageBox.Show("Check Login & Password", "User not found!");
                     return;
@@ -63,7 +88,7 @@ namespace AuthorizationApp.Pages
 
         private void ButtonRegistration_OnClick(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new Page2());
+            NavigationService?.Navigate(new RegPage());
         }
     }
 }

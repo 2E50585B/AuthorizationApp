@@ -5,8 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:AuthorizationApp.Pages.Roles"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-      Title="CustomerMenu" Loaded="CustomerMenu_Loaded">
+      d:DesignHeight="480" d:DesignWidth="640"
+      Title="Customer Menu" Loaded="CustomerMenu_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
