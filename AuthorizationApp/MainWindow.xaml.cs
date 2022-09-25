@@ -23,7 +23,7 @@ namespace AuthorizationApp
             Title = $"Page - {page.Title}";
 
             if (page is AuthPage)
-                ButtonBack.Visibility = Visibility.Hidden;
+                ButtonBack.Visibility = Visibility.Collapsed;
             else
                 ButtonBack.Visibility = Visibility.Visible;
         }

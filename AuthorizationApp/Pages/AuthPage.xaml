@@ -25,7 +25,9 @@
                     <RowDefinition Height="250"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                
                 <TextBlock Grid.Column="1" Text="Авторизация" FontSize="42" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                
                 <StackPanel Grid.Row="1" Grid.Column="1">
                     <Grid Height="125">
                         <Grid.ColumnDefinitions>
@@ -38,38 +40,23 @@
                         </Grid.RowDefinitions>
 
                         <Label Content="Логин" Height="45" HorizontalContentAlignment="Center" Margin="0 15 10 0"/>
-                        <TextBox Grid.Column="1" x:Name="TextBoxLogin" Height="35" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" x:Name="TextBoxLogin" Height="35" TextWrapping="Wrap" MaxLength="20" VerticalAlignment="Center"/>
 
                         <Label Grid.Row="1" Height="55" HorizontalContentAlignment="Center" Margin="30 15 0 0">
                             <StackPanel Orientation="Horizontal">
                                 <AccessText Text="Пароль"/>
                                 <Button Width="32" Margin="10 0 0 0" Click="ShowHidePassword_OnClick">
                                     <Image Width="22" Source="/Images/eyes.png"/>
-                                    <Button.Resources>
-                                        <Style TargetType="Border">
-                                            <Setter Property="CornerRadius" Value="10"/>
-                                        </Style>
-                                    </Button.Resources>
                                 </Button>
                             </StackPanel>
                         </Label>
-                        <PasswordBox Grid.Column="1" Grid.Row="1" x:Name="PasswordBox" Height="35" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" Grid.Row="1" x:Name="PasswordText" Height="35" VerticalAlignment="Center" Visibility="Collapsed" FontSize="18"/>
+
+                        <PasswordBox Grid.Column="1" Grid.Row="1" x:Name="PasswordBox" Height="35" MaxLength="20" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="1" x:Name="PasswordText" Height="35" MaxLength="20" VerticalAlignment="Center" Visibility="Collapsed" FontSize="18"/>
                     </Grid>
-                    <Button Content="Войти" Click="ButtonEnter_OnClick" Height="40" Margin="0 40 0 0" FontSize="24">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                    <Button Content="Зарегестрироваться" Click="ButtonRegistration_OnClick" Height="30" Margin="0 15 0 0" FontSize="18">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
+
+                    <Button Content="Войти" Click="ButtonEnter_OnClick" Height="40" Margin="0 40 0 0" FontSize="24"/>
+                    <Button Content="Зарегестрироваться" Click="ButtonRegistration_OnClick" Height="30" Margin="0 15 0 0" FontSize="18"/>
                 </StackPanel>
             </Grid>
         </Border>

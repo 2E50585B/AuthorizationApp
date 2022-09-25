@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800"
         ResizeMode="CanMinimize">
+
     <Grid Background="#FFDADADA">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -18,13 +19,8 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="ButtonBack" Click="ButtonBack_OnClick" Content="Вернуться" HorizontalAlignment="Left" Margin="10, 10, 0, 10" Width="75" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Frame x:Name="MainFrame" Navigated="MainFrame_OnNavigated" Content="Frame" Grid.Column="1" Grid.Row="1" Source="Pages/AuthPage.xaml" NavigationUIVisibility="Hidden"/>
+
+        <Button x:Name="ButtonBack" Content="Назад" Click="ButtonBack_OnClick" HorizontalAlignment="Left" Margin="10" Width="75" Grid.ColumnSpan="2" FontSize="14"/>
+        <Frame x:Name="MainFrame" Navigated="MainFrame_OnNavigated" Grid.Column="1" Grid.Row="1" Source="Pages/AuthPage.xaml" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using AuthorizationApp.Extentions;
 
 namespace AuthorizationApp.Pages
 {
@@ -15,14 +16,34 @@ namespace AuthorizationApp.Pages
     /// </summary>
     public partial class RegPage : Page
     {
-        private const int LOGIN_MAX_LENGTH = 20;
-        private const int PASSWORD_MAX_LENGTH = 20;
-        private const int FIO_MAX_LENGTH = 100;
+        private bool _passwordIsHidden = true;
         private string _role;
 
         public RegPage()
         {
             InitializeComponent();
+        }
+
+        private void ShowHidePassword_OnClick(object sender, RoutedEventArgs e)
+        {
+            _passwordIsHidden = !_passwordIsHidden;
+
+            if (_passwordIsHidden)
+            {
+                NewPassword.Visibility = Visibility.Visible;
+                PasswordText.Visibility = Visibility.Collapsed;
+                NewPassword.Password = PasswordText.Text;
+                NewPassword.Focus();
+                NewPassword.SetSelection(NewPassword.Password.Length);
+            }
+            else
+            {
+                NewPassword.Visibility = Visibility.Collapsed;
+                PasswordText.Visibility = Visibility.Visible;
+                PasswordText.Text = NewPassword.Password;
+                PasswordText.Focus();
+                PasswordText.CaretIndex = PasswordText.Text.Length;
+            }
         }
 
         private void NewRole_OnSelected(object sender, SelectionChangedEventArgs e)
@@ -61,27 +82,31 @@ namespace AuthorizationApp.Pages
             RegistrationBtn.IsEnabled = false;
             StringBuilder stringBuilder = new StringBuilder();
 
-            if (NewLogin.Text.Length > LOGIN_MAX_LENGTH || IsEmpty(NewLogin.Text))
-                stringBuilder.AppendLine("Incorrect Login");
+            if (IsEmpty(NewLogin.Text))
+                stringBuilder.AppendLine("Неверный логин");
 
-            if (NewPassword.Password.Length > PASSWORD_MAX_LENGTH || IsEmpty(NewPassword.Password))
-                stringBuilder.AppendLine("Incorrect Password");
+            if (IsEmpty(NewPassword.Password))
+                stringBuilder.AppendLine("Неверный пароль");
+            else if (NewPasswordTwice.Password == string.Empty)
+                stringBuilder.AppendLine("Нужно повторить пароль!");
+            else if (NewPassword.Password != NewPasswordTwice.Password)
+                stringBuilder.AppendLine("Пароли не совпадают");
 
-            if (NewFIO.Text.Length > FIO_MAX_LENGTH || IsEmpty(NewFIO.Text))
-                stringBuilder.AppendLine("Incorrect FIO");
+            if (IsEmpty(NewFIO.Text))
+                stringBuilder.AppendLine("Неверные ФИО");
 
             if (stringBuilder.Length == 0)
             {
                 if (!LoginIsAvailable())
-                    stringBuilder.AppendLine("This Login is already in use!");
+                    stringBuilder.AppendLine("Этот логин уже используется!");
                 else
                 {
-                    stringBuilder.Append("Registration Successfully!!!");
+                    stringBuilder.Append("Вы зарегестрированы!!!");
                     ClearFields();
                 }
             }
 
-            MessageBox.Show(stringBuilder.ToString(), "", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(stringBuilder.ToString(), string.Empty, MessageBoxButton.OK, MessageBoxImage.Information);
             stringBuilder.Clear();
             RegistrationBtn.IsEnabled = true;
         }
@@ -166,6 +191,7 @@ namespace AuthorizationApp.Pages
         {
             NewLogin.Text = string.Empty;
             NewPassword.Password = string.Empty;
+            NewPasswordTwice.Password = string.Empty;
             NewFIO.Text = string.Empty;
         }
     }

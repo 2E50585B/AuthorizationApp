@@ -19,15 +19,24 @@
         <Setter Property="FontSize" Value="18"/>
     </Style>
 
+    <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+    
+    <Style TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
     <Style TargetType="{x:Type Button}">
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Background" Value="#6c3bba"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="10">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>

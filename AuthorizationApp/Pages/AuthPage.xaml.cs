@@ -48,7 +48,7 @@ namespace AuthorizationApp.Pages
         {
             if (LoginIsNull || PasswordIsNull)
             {
-                MessageBox.Show("Write Login and Password!");
+                MessageBox.Show("Введите Логин и Пароль!");
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace AuthorizationApp.Pages
 
                 if (user is null)
                 {
-                    MessageBox.Show("Check Login & Password", "User not found!");
+                    MessageBox.Show("Проверьте Логин и Пароль", "Пользователь не найден!");
                     return;
                 }
 
@@ -80,7 +80,7 @@ namespace AuthorizationApp.Pages
                         NavigationService?.Navigate(new Menu());
                         break;
                     default:
-                        MessageBox.Show($"Такой роли нет - |{user.Role}|!");
+                        MessageBox.Show($"Такой должности нет - |{user.Role}|!", string.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                 }
             }
