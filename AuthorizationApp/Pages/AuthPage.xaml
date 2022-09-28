@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:AuthorizationApp.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="480" d:DesignWidth="640"
-      Title="Authorization">
+      Title="Authorization" Unloaded="AuthPage_OnUnload">
 
     <Grid>
         <Border CornerRadius="25" Background="White">

@@ -9,7 +9,7 @@ namespace AuthorizationApp.Extentions
     public static class PasswordBoxExtentions
     {
         /// <summary>
-        /// Выделяет определённую область текста от <paramref name="start"/> до <paramref name="length"/>
+        /// Выделяет определённую область текста от <paramref name="start"/> на расстояние <paramref name="length"/>
         /// </summary>
         /// <param name="start">Позиция, откуда начнётся выделение текста</param>
         /// <param name="length">Определяет длину выделения текста</param>

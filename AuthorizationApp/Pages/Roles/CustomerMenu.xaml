@@ -31,10 +31,10 @@
                     <TextBlock x:Name="TextFIO"  FontSize="26" TextWrapping="Wrap" TextAlignment="Center"/>
                     <TextBlock x:Name="TextRole" FontSize="22" TextAlignment="Center" TextDecorations="OverLine" Margin="0 10 0 0"/>
                     <Border BorderBrush="Black" BorderThickness="1.25" Height="86" Width="86" Margin="0 20 0 0">
-                        <Image x:Name="CustomerPhoto" Source="/Images/defaultPhoto.png"/>
+                        <Image x:Name="CustomerPhoto" Source="/Images/defaultPhoto.png" Stretch="UniformToFill"/>
                     </Border>
                 </StackPanel>
-                
+
                 <Button Content="Меню" Click="ButtonMenu_OnClick" Grid.Column="1" Grid.Row="2" Height="35" VerticalAlignment="Top" FontSize="22"/>
                 <Button Content="Регистрация" Click="ButtonPage2_OnClick" Grid.Column="1" Grid.Row="2" Height="35" FontSize="22"/>
                 <Button Content="Выйти" Click="ButtonAuthPage_OnClick" Grid.Column="1" Grid.Row="2" Height="35" VerticalAlignment="Bottom" FontSize="22"/>

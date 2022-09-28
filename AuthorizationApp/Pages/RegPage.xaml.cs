@@ -1,5 +1,4 @@
 ﻿using AuthorizationApp.DialogService;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Text;
 using System.Data;
@@ -8,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AuthorizationApp.Extentions;
+using System;
 
 namespace AuthorizationApp.Pages
 {
@@ -50,7 +50,7 @@ namespace AuthorizationApp.Pages
         {
             ComboBoxItem item = NewRole.SelectedValue as ComboBoxItem;
             TextBlock content = item?.Content as TextBlock;
-            _role = content?.Text ?? "Consumer";
+            _role = content?.Text ?? "Customer";
         }
 
         private void GetPhoto_OnClick(object sender, RoutedEventArgs e)
@@ -70,7 +70,7 @@ namespace AuthorizationApp.Pages
                 glowIcon.EndInit();
                 return glowIcon;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, ex.TargetSite.Name, MessageBoxButton.OK, MessageBoxImage.Error);
                 return UserPhoto.Source;
@@ -82,17 +82,17 @@ namespace AuthorizationApp.Pages
             RegistrationBtn.IsEnabled = false;
             StringBuilder stringBuilder = new StringBuilder();
 
-            if (IsEmpty(NewLogin.Text))
+            if (NewLogin.Text.IsEmpty())
                 stringBuilder.AppendLine("Неверный логин");
 
-            if (IsEmpty(NewPassword.Password))
+            if (NewPassword.Password.IsEmpty())
                 stringBuilder.AppendLine("Неверный пароль");
-            else if (NewPasswordTwice.Password == string.Empty)
+            else if (NewPasswordTwice.Password.IsEmpty())
                 stringBuilder.AppendLine("Нужно повторить пароль!");
             else if (NewPassword.Password != NewPasswordTwice.Password)
                 stringBuilder.AppendLine("Пароли не совпадают");
 
-            if (IsEmpty(NewFIO.Text))
+            if (NewFIO.Text.IsEmpty())
                 stringBuilder.AppendLine("Неверные ФИО");
 
             if (stringBuilder.Length == 0)
@@ -111,22 +111,11 @@ namespace AuthorizationApp.Pages
             RegistrationBtn.IsEnabled = true;
         }
 
-        private bool IsEmpty(string text) => string.IsNullOrEmpty(text) || string.IsNullOrWhiteSpace(text);
-
         private bool LoginIsAvailable()
         {
             bool loginIsAvaliable = true;
 
-            string connectionString = ConfigurationManager.ConnectionStrings["Entities"].ConnectionString.ToString();
-
-            if (connectionString.ToLower().StartsWith("metadata="))
-            {
-                System.Data.Entity.Core.EntityClient.EntityConnectionStringBuilder efBuilder =
-                    new System.Data.Entity.Core.EntityClient.EntityConnectionStringBuilder(connectionString);
-                connectionString = efBuilder.ProviderConnectionString;
-            }
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(App.ConnectionString))
             {
                 connection.Open();
 
@@ -143,7 +132,7 @@ namespace AuthorizationApp.Pages
                     while (dataReader.Read())
                         loginIsAvaliable = dataReader is null;
                 }
-                catch (System.IndexOutOfRangeException ex)
+                catch (IndexOutOfRangeException ex)
                 {
                     MessageBox.Show(ex.Message);
                     loginIsAvaliable = false;
@@ -160,21 +149,13 @@ namespace AuthorizationApp.Pages
                     command.Parameters.Add("@Password", SqlDbType.NVarChar, 20);
                     command.Parameters.Add("@Role", SqlDbType.NVarChar, 20);
                     command.Parameters.Add("@FIO", SqlDbType.NVarChar, 100);
-                    /* Не удаётся правильно закодировать/декодировать изображение
-                    command.Parameters.Add("@Photo", System.Data.SqlDbType.Binary, int.MaxValue);
+                    command.Parameters.Add("@Photo", SqlDbType.VarBinary, int.MaxValue);
 
-                    BitmapImage bmp = UserPhoto.Source as BitmapImage;
-                    int height = bmp.PixelHeight;
-                    int width = bmp.PixelWidth;
-                    int stride = width * ((bmp.Format.BitsPerPixel + 7) / 8);
-                    byte[] photoData = new byte[height * stride];
-                    bmp.CopyPixels(photoData, stride, 0);
-
-                    command.Parameters["@Photo"].Value = photoData;*/
                     command.Parameters["@Login"].Value = NewLogin.Text;
                     command.Parameters["@Password"].Value = NewPassword.Password;
                     command.Parameters["@Role"].Value = _role;
                     command.Parameters["@FIO"].Value = NewFIO.Text;
+                    command.Parameters["@Photo"].Value = UserPhoto.Source.Serialize(new BmpBitmapEncoder());
 
                     command.ExecuteNonQuery();
                 }

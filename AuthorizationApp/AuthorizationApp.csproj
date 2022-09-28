@@ -65,10 +65,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ActionsWithDB\LoadData.cs" />
+    <Compile Include="ActionsWithDB\RemoveFromDB.cs" />
+    <Compile Include="Converter\BaseConverter.cs" />
+    <Compile Include="Converter\ImageConverter.cs" />
     <Compile Include="DialogService\DefaultDialogService.cs" />
     <Compile Include="DialogService\IDialogService.cs" />
-    <Compile Include="DialogService\IFileService.cs" />
+    <Compile Include="Extentions\ImageExtentions.cs" />
     <Compile Include="Extentions\PasswordBoxExtentions.cs" />
+    <Compile Include="Extentions\StringExtentions.cs" />
     <Compile Include="Model.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -79,6 +84,9 @@
     </Compile>
     <Compile Include="Pages\Roles\CustomerMenu.xaml.cs">
       <DependentUpon>CustomerMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Roles\DirectorMenu.xaml.cs">
+      <DependentUpon>DirectorMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -108,6 +116,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Roles\CustomerMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Roles\DirectorMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,6 +18,13 @@ namespace AuthorizationApp.Pages
             InitializeComponent();
         }
 
+        private void AuthPage_OnUnload(object sender, RoutedEventArgs e)
+        {
+            TextBoxLogin.Text = string.Empty;
+            PasswordBox.Password = string.Empty;
+            PasswordText.Text = string.Empty;
+        }
+
         private void ShowHidePassword_OnClick(object sender, RoutedEventArgs e)
         {
             _passwordIsHidden = !_passwordIsHidden;
@@ -40,15 +47,11 @@ namespace AuthorizationApp.Pages
             }
         }
 
-        private bool LoginIsNull => string.IsNullOrEmpty(TextBoxLogin.Text) || string.IsNullOrWhiteSpace(TextBoxLogin.Text);
-
-        private bool PasswordIsNull => string.IsNullOrEmpty(PasswordBox.Password) || string.IsNullOrWhiteSpace(PasswordBox.Password);
-
         private void ButtonEnter_OnClick(object sender, RoutedEventArgs e)
         {
-            if (LoginIsNull || PasswordIsNull)
+            if (TextBoxLogin.Text.IsEmpty() || PasswordBox.Password.IsEmpty())
             {
-                MessageBox.Show("Введите Логин и Пароль!");
+                MessageBox.Show("Введите Логин и Пароль!", "Пустые поля", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
             }
 
@@ -64,7 +67,7 @@ namespace AuthorizationApp.Pages
 
                 if (user is null)
                 {
-                    MessageBox.Show("Проверьте Логин и Пароль", "Пользователь не найден!");
+                    MessageBox.Show("Проверьте Логин и Пароль", "Пользователь не найден!", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -77,10 +80,10 @@ namespace AuthorizationApp.Pages
                         NavigationService?.Navigate(new Menu());
                         break;
                     case "Директор":
-                        NavigationService?.Navigate(new Menu());
+                        NavigationService?.Navigate(new DirectorMenu(user));
                         break;
                     default:
-                        MessageBox.Show($"Такой должности нет - |{user.Role}|!", string.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show($"Должности {user.Role} - нет!", string.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                 }
             }

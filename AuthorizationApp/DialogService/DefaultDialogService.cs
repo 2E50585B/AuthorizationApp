@@ -10,6 +10,7 @@ namespace AuthorizationApp.DialogService
         public bool OpenFileDialog()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files (*.png, *.jpg, *.bmp)|*.png;*.jpg;*.bmp|All Files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
                 FilePath = openFileDialog.FileName;

@@ -1,0 +1,77 @@
+﻿<Page x:Class="AuthorizationApp.Pages.Roles.DirectorMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AuthorizationApp.Pages.Roles"
+      mc:Ignorable="d" 
+      d:DesignHeight="480" d:DesignWidth="640"
+      Title="Director Menu" Loaded="DirectorMenu_OnLoaded">
+
+    <Grid>
+        <Border CornerRadius="25" Background="White">
+            <Border.Effect>
+                <DropShadowEffect Color="LightGray" ShadowDepth="0" BlurRadius="25"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="450"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Column="0" Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="350"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock x:Name="TextFIO"  FontSize="26" TextWrapping="Wrap" TextAlignment="Center"/>
+                        <TextBlock x:Name="TextRole" FontSize="22" TextAlignment="Center" TextDecorations="OverLine" Margin="0 10 0 0"/>
+                        <Border BorderBrush="Black" BorderThickness="1.25" Height="86" Width="86" Margin="0 20 0 0">
+                            <Image x:Name="DirectorPhoto" Source="/Images/defaultPhoto.png" Stretch="UniformToFill"/>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <Button ToolTip="ПОКА НЕ РАБОТАЕТ :(" x:Name="SortButton" Click="SortButton_OnClick" Content="Сортировать" Margin="0 20 0 0" Height="35" Width="110"/>
+
+                        <ComboBox x:Name="SortRole" SelectionChanged="SortRole_OnSelected" Width="100" Height="20" Margin="0 35 0 0" Visibility="Collapsed">
+                            <ComboBoxItem IsSelected="True">
+                                <TextBlock Text="Consumer"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock Text="Заказчик"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock Text="Директор"/>
+                            </ComboBoxItem>
+                        </ComboBox>
+
+                        <TextBox x:Name="SortLogin" MaxLength="20" Width="100" Margin="0 35 0 0" Visibility="Collapsed"/>
+                        <TextBox x:Name="SortFIO" MaxLength="100" Width="100" Margin="0 35 0 0" Visibility="Collapsed"/>
+
+                        <Button x:Name="RemoveButton" Click="RemoveButton_OnClick" Margin="0 40 0 0" Content="Удалить" Height="30" Width="100"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Сортировка по:" Margin="20" TextWrapping="Wrap" FontSize="18"/>
+                        <RadioButton Content="Должность" GroupName="Sort" Margin="20 0 0 0" FontSize="16" Checked="Role_OnChecked"/>
+                        <RadioButton Content="ФИО" GroupName="Sort" Margin="20 10 0 0" FontSize="16" Checked="FIO_OnChecked"/>
+                        <RadioButton Content="Логин" GroupName="Sort" Margin="20 10 0 0" FontSize="16" Checked="Login_OnChecked"/>
+                        <RadioButton Content="Все" GroupName="Sort" IsChecked="True" Margin="20 10 0 0" FontSize="16" Checked="None_OnChecked"/>
+                    </StackPanel>
+                </Grid>
+
+                <DataGrid x:Name="UsersList" Grid.Row="1" Grid.Column="1" IsReadOnly="True" AutoGenerateColumns="True" Background="#FFDADADA"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
