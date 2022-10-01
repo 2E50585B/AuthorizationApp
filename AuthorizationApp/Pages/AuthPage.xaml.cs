@@ -90,7 +90,7 @@ namespace AuthorizationApp.Pages
                 {
                     if (user.Password != PasswordBox.Password)
                     {
-                        MessageBox.Show($"Проверьте Пароль", "Не верный пароль!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Проверьте Пароль", "Не верный пароль!", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                 }

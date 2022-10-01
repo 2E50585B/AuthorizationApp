@@ -28,7 +28,8 @@ namespace AuthorizationApp.Pages.Roles
         {
             TextFIO.Text = Director.FIO;
             TextRole.Text = Director.Role;
-            if (new ImageConverter().Convert(GetImageData(), typeof(ImageSource), null, null) is ImageSource imageSource)
+            if (new ImageConverter().
+                Convert(GetImageData(), typeof(ImageSource), null, null) is ImageSource imageSource)
                 DirectorPhoto.Source = imageSource;
 
             LoadUsersList();
@@ -119,16 +120,14 @@ namespace AuthorizationApp.Pages.Roles
         
         private void SortRole_OnSelected(object sender, SelectionChangedEventArgs e)
         {
-            ComboBoxItem item = SortRole.SelectedValue as ComboBoxItem;
-            TextBlock content = item?.Content as TextBlock;
-            Role = content?.Text ?? "Consumer";
+            if (SortRole.SelectedValue is ComboBox item)
+            {
+                TextBlock content = item.Content as TextBlock;
+                Role = content?.Text ?? "Consumer";
+            }
         }
 
-        private void SortButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            return;
-            //LoadUsersList();
-        }
+        private void SortButton_OnClick(object sender, RoutedEventArgs e) { }
 
         private void RemoveButton_OnClick(object sender, RoutedEventArgs e)
         {

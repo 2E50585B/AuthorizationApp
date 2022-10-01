@@ -53,10 +53,7 @@ namespace AuthorizationApp
             Window.Focus();
         }
 
-        private void MainWindow_OnUnload(object sender, RoutedEventArgs e)
-        {
-            Window.KeyDown -= OnKeyDown;
-        }
+        private void MainWindow_OnUnload(object sender, RoutedEventArgs e) => Window.KeyDown -= OnKeyDown;
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
