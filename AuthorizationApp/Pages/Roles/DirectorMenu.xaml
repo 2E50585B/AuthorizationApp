@@ -45,7 +45,7 @@
 
                         <ComboBox x:Name="SortRole" SelectionChanged="SortRole_OnSelected" Width="100" Height="20" Margin="0 35 0 0" Visibility="Collapsed">
                             <ComboBoxItem IsSelected="True">
-                                <TextBlock Text="Consumer"/>
+                                <TextBlock Text="Customer"/>
                             </ComboBoxItem>
                             <ComboBoxItem>
                                 <TextBlock Text="Заказчик"/>
@@ -63,14 +63,14 @@
 
                     <StackPanel>
                         <TextBlock Text="Сортировка по:" Margin="20" TextWrapping="Wrap" FontSize="18"/>
-                        <RadioButton Content="Должность" GroupName="Sort" Margin="20 0 0 0" FontSize="16" Checked="Role_OnChecked"/>
-                        <RadioButton Content="ФИО" GroupName="Sort" Margin="20 10 0 0" FontSize="16" Checked="FIO_OnChecked"/>
-                        <RadioButton Content="Логин" GroupName="Sort" Margin="20 10 0 0" FontSize="16" Checked="Login_OnChecked"/>
-                        <RadioButton Content="Все" GroupName="Sort" IsChecked="True" Margin="20 10 0 0" FontSize="16" Checked="None_OnChecked"/>
+                        <RadioButton Content="Должность" GroupName="Sort" Margin="20 0 0 0" FontSize="16" Checked="OnChecked"/>
+                        <RadioButton Content="ФИО" GroupName="Sort" Margin="20 10 0 0" FontSize="16" Checked="OnChecked"/>
+                        <RadioButton Content="Логин" GroupName="Sort" Margin="20 10 0 0" FontSize="16" Checked="OnChecked"/>
+                        <RadioButton IsChecked="True" Content="Все" GroupName="Sort" Margin="20 10 0 0" FontSize="16" Checked="OnChecked"/>
                     </StackPanel>
                 </Grid>
 
-                <DataGrid x:Name="UsersList" Grid.Row="1" Grid.Column="1" IsReadOnly="True" AutoGenerateColumns="True" Background="#FFDADADA"/>
+                <DataGrid x:Name="UsersList" Grid.Row="1" Grid.Column="1" IsReadOnly="True" AutoGenerateColumns="True" Background="#FFDADADA" Margin="15"/>
             </Grid>
         </Border>
     </Grid>

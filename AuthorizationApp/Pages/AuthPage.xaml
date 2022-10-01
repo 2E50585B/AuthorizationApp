@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:AuthorizationApp.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="480" d:DesignWidth="640"
-      Title="Authorization" Unloaded="AuthPage_OnUnload">
+      Title="Authorization" Loaded="AuthPage_OnLoad" Unloaded="AuthPage_OnUnload">
 
     <Grid>
         <Border CornerRadius="25" Background="White">
@@ -55,7 +55,7 @@
                         <TextBox Grid.Column="1" Grid.Row="1" x:Name="PasswordText" Height="35" MaxLength="20" VerticalAlignment="Center" Visibility="Collapsed" FontSize="18"/>
                     </Grid>
 
-                    <Button Content="Войти" Click="ButtonEnter_OnClick" Height="40" Margin="0 40 0 0" FontSize="24"/>
+                    <Button x:Name="ButtonEnter" Content="Войти" Click="ButtonEnter_OnClick" Height="40" Margin="0 40 0 0" FontSize="24"/>
                     <Button Content="Зарегестрироваться" Click="ButtonRegistration_OnClick" Height="30" Margin="0 15 0 0" FontSize="18"/>
                 </StackPanel>
             </Grid>

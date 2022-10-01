@@ -1,7 +1,11 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using AuthorizationApp.ActionsWithDB;
+using AuthorizationApp.Converter;
 
 namespace AuthorizationApp.Pages.Roles
 {
@@ -24,54 +28,95 @@ namespace AuthorizationApp.Pages.Roles
         {
             TextFIO.Text = Director.FIO;
             TextRole.Text = Director.Role;
+            if (new ImageConverter().Convert(GetImageData(), typeof(ImageSource), null, null) is ImageSource imageSource)
+                DirectorPhoto.Source = imageSource;
 
             LoadUsersList();
         }
 
-        private void LoadUsersList()
+        private byte[] GetImageData()
         {
-            LoadData.Load(GetSqlCommandText(SortingValues.None), ref UsersList);
+            byte[] photoData = null;
+            string connectionString = App.ConnectionString;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandText = $@"SELECT [Photo] FROM [User] WHERE [Login] = '{Director.Login}'"
+                };
+
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                try
+                {
+                    while (dataReader.Read())
+                        photoData = (byte[])dataReader["Photo"];
+                }
+                catch (InvalidCastException)
+                {
+                    photoData = null;
+                }
+                finally
+                {
+                    dataReader.Close();
+                }
+
+                connection.Close();
+                return photoData;
+            }
         }
 
-        private string GetSqlCommandText(SortingValues sortingValue)
+        private void LoadUsersList() => LoadData.Load(GetSqlCommandText(SortingValues.None), ref UsersList);
+
+        private string GetSqlCommandText(SortingValues sortingValue) =>
+            string.Concat(@"SELECT [Role] AS Должность, [FIO] AS ФИО, [Login] AS Логин, [Password] AS Пароль FROM [User] ", GetCondition(sortingValue));
+
+        private string GetCondition(SortingValues sortingValues)
         {
-            switch (sortingValue)
+            switch (sortingValues)
             {
+                case SortingValues.None:
+                    goto default;
                 case SortingValues.Role:
-                    return $@"SELECT [Role] AS Должность, [FIO] AS ФИО, [Login] AS Логин, [Password] AS Пароль FROM [User] WHERE [Role] = '{Role}'";
+                    return $"WHERE [Role] = '{Role}'";
                 case SortingValues.FIO:
-                    return $@"SELECT [Role] AS Должность, [FIO] AS ФИО, [Login] AS Логин, [Password] AS Пароль FROM [User] WHERE [FIO] = '{SortFIO.Text}'";
+                    return $"WHERE [FIO] = '{SortFIO.Text}'";
                 case SortingValues.Login:
-                    return $@"SELECT [Role] AS Должность, [FIO] AS ФИО, [Login] AS Логин, [Password] AS Пароль FROM [User] WHERE [Login] = '{SortLogin.Text}'";
+                    return $"WHERE [Login] = '{SortLogin.Text}'";
                 default:
-                    return $@"SELECT [Role] AS Должность, [FIO] AS ФИО, [Login] AS Логин, [Password] AS Пароль FROM [User]";
+                    return $"WHERE [Login] != '{Director.Login}'";
+            }
+        }
+
+        private void OnChecked(object sender, RoutedEventArgs e)
+        {
+            if (sender is RadioButton item)
+            {
+                switch (item.Content)
+                {
+                    case "Все":
+                        goto default;
+                    case "Должность":
+                        SortingValue = SortingValues.Role;
+                        break;
+                    case "ФИО":
+                        SortingValue = SortingValues.FIO;
+                        break;
+                    case "Логин":
+                        SortingValue = SortingValues.Login;
+                        break;
+                    default:
+                        SortingValue = SortingValues.None;
+                        break;
+                }
+                ChangeSortingComponentsVisibility();
             }
         }
         
-        private void Role_OnChecked(object sender, RoutedEventArgs e)
-        {
-            SortingValue = SortingValues.Role;
-            ChangeSortingComponentsVisibility();
-        }
-
-        private void FIO_OnChecked(object sender, RoutedEventArgs e)
-        {
-            SortingValue = SortingValues.FIO;
-            ChangeSortingComponentsVisibility();
-        }
-
-        private void Login_OnChecked(object sender, RoutedEventArgs e)
-        {
-            SortingValue = SortingValues.Login;
-            ChangeSortingComponentsVisibility();
-        }
-
-        private void None_OnChecked(object sender, RoutedEventArgs e)
-        {
-            SortingValue = SortingValues.None;
-            ChangeSortingComponentsVisibility();
-        }
-
         private void SortRole_OnSelected(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxItem item = SortRole.SelectedValue as ComboBoxItem;
@@ -87,17 +132,29 @@ namespace AuthorizationApp.Pages.Roles
 
         private void RemoveButton_OnClick(object sender, RoutedEventArgs e)
         {
-            DataRowView item = UsersList.SelectedItem as DataRowView;
-            string loginToRemove = item?.Row["Логин"].ToString();
-            item?.Delete();
-            if (loginToRemove != string.Empty && loginToRemove != null)
-                RemoveFromDB.Remove(loginToRemove);
+            if (UsersList.SelectedItem is DataRowView item)
+            {
+                string loginToRemove = item.Row["Логин"].ToString();
+                string message =
+                    "Вы уверены, что хотите удалить этого пользователя?\n"
+                    + $"\nДолжность:\t{item.Row["Должность"]}\nЛогин:\t{loginToRemove}\nФИО:\t{item.Row["ФИО"]}"
+                    + "\n\nОтменить это действие будет невозможно!";
+
+                if (MessageBox.Show(message, $"Удалить пользователя {loginToRemove}?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    item.Delete();
+                    if (loginToRemove != string.Empty && loginToRemove != null)
+                        RemoveFromDB.Remove(loginToRemove);
+                }
+            }
         }
 
         private void ChangeSortingComponentsVisibility()
         {
             switch (SortingValue)
             {
+                case SortingValues.None:
+                    goto default;
                 case SortingValues.Role:
                     SortRole.Visibility = Visibility.Visible;
                     SortLogin.Visibility = Visibility.Collapsed;

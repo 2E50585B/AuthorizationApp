@@ -1,8 +1,6 @@
 ﻿using AuthorizationApp.Converter;
-using AuthorizationApp.Extentions;
 using System;
 using System.Data.SqlClient;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -26,7 +24,7 @@ namespace AuthorizationApp.Pages.Roles
         {
             TextFIO.Text = Customer.FIO;
             TextRole.Text = Customer.Role;
-            if (new ImageConverter().Convert(GetImageData(), typeof(ImageSource), null, CultureInfo.CurrentCulture) is ImageSource imageSource)
+            if (new ImageConverter().Convert(GetImageData(), typeof(ImageSource), null, null) is ImageSource imageSource)
                 CustomerPhoto.Source = imageSource;
         }
 

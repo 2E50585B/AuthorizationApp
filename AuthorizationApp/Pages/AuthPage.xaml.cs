@@ -3,6 +3,7 @@ using AuthorizationApp.Pages.Roles;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace AuthorizationApp.Pages
 {
@@ -11,6 +12,7 @@ namespace AuthorizationApp.Pages
     /// </summary>
     public partial class AuthPage : Page
     {
+        private Window Window { get; set; }
         private bool _passwordIsHidden = true;
 
         public AuthPage()
@@ -18,8 +20,16 @@ namespace AuthorizationApp.Pages
             InitializeComponent();
         }
 
+        private void AuthPage_OnLoad(object sender, RoutedEventArgs e)
+        {
+            Window = Window.GetWindow(this);
+            Window.KeyDown += KeyEnter_OnDown;
+            Window.Focus();
+        }
+
         private void AuthPage_OnUnload(object sender, RoutedEventArgs e)
         {
+            Window.KeyDown -= KeyEnter_OnDown;
             TextBoxLogin.Text = string.Empty;
             PasswordBox.Password = string.Empty;
             PasswordText.Text = string.Empty;
@@ -47,6 +57,12 @@ namespace AuthorizationApp.Pages
             }
         }
 
+        private void KeyEnter_OnDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return || e.Key == Key.Enter)
+                ButtonEnter_OnClick(ButtonEnter, null);
+        }
+
         private void ButtonEnter_OnClick(object sender, RoutedEventArgs e)
         {
             if (TextBoxLogin.Text.IsEmpty() || PasswordBox.Password.IsEmpty())
@@ -59,16 +75,24 @@ namespace AuthorizationApp.Pages
             {
                 User user = db.User.
                     AsNoTracking().
-                    FirstOrDefault(u => u.Login == TextBoxLogin.Text && u.Password == PasswordBox.Password);
+                    FirstOrDefault(u => u.Login == TextBoxLogin.Text);
 
                 //var users = db.User.AsNoTracking().Where(u => u.Login.StartsWith("test")).ToList();
 
                 //var allUsers = db.User.AsNoTracking().ToList();
 
-                if (user is null)
+                if (user == null)
                 {
-                    MessageBox.Show("Проверьте Логин и Пароль", "Пользователь не найден!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Проверьте Логин", "Пользователь не найден!", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
+                }
+                else
+                {
+                    if (user.Password != PasswordBox.Password)
+                    {
+                        MessageBox.Show($"Проверьте Пароль", "Не верный пароль!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                 }
 
                 switch (user.Role)
